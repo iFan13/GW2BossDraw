@@ -12,7 +12,6 @@ public class Renderer extends JPanel {
 	protected void paintComponent(Graphics g)
 	{
 		super.paintComponent(g);
-
 		Spinner.spinner.repaint(g);
 	}
 
