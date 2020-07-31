@@ -179,10 +179,10 @@ public class Spinner implements ActionListener, MouseListener
 		BufferedImage tempImage = null;
 		try	{
 			tempImage = ImageIO.read(Spinner.class.getResource(path));
-			System.out.println("Image added: "+path);
+			//System.out.println("Image added: "+path);
 		}
 		catch (IOException e) {
-			System.out.println("An error occured - "+e.getMessage());
+			//System.out.println("An error occured - "+e.getMessage());
 			e.printStackTrace();
 		}
 
