@@ -197,7 +197,7 @@ public class Spinner implements ActionListener, MouseListener
 			//System.out.println("Image added: "+path);
 		}
 		catch (IOException e) {
-			System.out.println("An error occured - "+e.getMessage());
+			//System.out.println("An error occured - "+e.getMessage());
 			e.printStackTrace();
 		}
 
