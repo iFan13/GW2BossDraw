@@ -26,7 +26,7 @@ public class Spinner implements ActionListener, MouseListener
 	private ArrayList<Image> slides;
 	private ArrayList<String> fileNames;
 	private int x, slowRoll =5;
-	private boolean spinning;
+	private boolean spinning, firstDraw;
 	public double speed = 0, maxSpeed=250,decel=0;
 		
 	private Random rand = new Random();
@@ -71,7 +71,7 @@ public class Spinner implements ActionListener, MouseListener
 		}	
 		tmpImg = getImage("/img/Arrow.png");
 		
-		
+		firstDraw = true;
 		jframe.add(renderer);
 		jframe.setTitle("Boss Draw");
 		jframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -94,7 +94,7 @@ public class Spinner implements ActionListener, MouseListener
 			decel = 0.75+(0.95-0.75)*rand.nextDouble();
 			spinning = false;
 		}
-		else if (spinning == false && speed == 0 || speed <0 ) {
+		else if (spinning == false && speed <= 0) {
 			speed=1;
 			spinning = true;
 		}
@@ -118,46 +118,61 @@ public class Spinner implements ActionListener, MouseListener
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if (spinning) {
-			if (x < -1*(WIDTH*(slides.size()))) {
-				x = Math.abs(x)-WIDTH*(slides.size())+1;
-			}
-			if (speed < maxSpeed) {
-				x -= speed;
-				speed = speed*1.05;
-			}
-			else if (speed >=maxSpeed) {
-				x-=speed;
-			}
-			}
-		else if (!spinning) {
-			if (x < -1*(WIDTH*(slides.size()))) {
-				x = Math.abs(x)-WIDTH*(slides.size())+1;
-			}
-			if (speed >0 && slowRoll >0) {
-				x -= speed;
-				slowRoll--;
-				if (speed < 0.5){
-					speed = 0;
+		//image loop effect
+		if (Math.abs(x) > WIDTH*slides.size()) {
+			x = Math.abs(x)-WIDTH*(slides.size())+1;
+			firstDraw=false;
+		}
+		
+		if (spinning)
+		{
+			if (firstDraw == true) {
+				//slide acceleration reaching max visible
+				if (speed < maxSpeed/25*2) {
+					x -= speed;
+					speed = speed*1.05;
+				}
+				else if (speed >=maxSpeed/25*2) {
+					x-=speed;
 				}
 			}
-			else if (speed >0 && slowRoll ==0) {
-				x -= speed;
-				speed = speed*decel;
-				slowRoll = 5;
-				if (speed < 0.5){
-					speed = 0;
+			else if (firstDraw ==false) {
+				//slide acceleration reaching max
+				if (speed < maxSpeed) {
+					x -= speed;
+					speed = speed*1.05;
 				}
-			}
-			else if (speed == 0) { //snap back to full image 
-				if (Math.abs(x%WIDTH) <= WIDTH/2) {
-					x = x/WIDTH*WIDTH;
-				}
-				else if (Math.abs(x%WIDTH)> WIDTH/2) {
-					x = (x/WIDTH-1)*WIDTH;
+				else {
+					x-=speed;
 				}
 			}
 		}
+		
+		else if (!spinning) {
+			
+			if (speed == 0) { //snap back to full image 
+				if (Math.abs(x%WIDTH) <= WIDTH/2) {
+					x = x/WIDTH*WIDTH;
+				}
+				else {
+					x = (x/WIDTH-1)*WIDTH;
+				}
+			}
+			
+			if (slowRoll >0) {
+				x -= speed;
+				slowRoll--;
+			}
+			else if (slowRoll ==0) {
+				x -= speed;
+				speed = speed*decel;
+				slowRoll = 5;
+			}
+			
+			if (speed < 0.5){
+				speed = 0;
+			}
+	 	}
 		renderer.repaint();
 	}
 
@@ -179,7 +194,7 @@ public class Spinner implements ActionListener, MouseListener
 		BufferedImage tempImage = null;
 		try	{
 			tempImage = ImageIO.read(Spinner.class.getResource(path));
-			System.out.println("Image added: "+path);
+			//System.out.println("Image added: "+path);
 		}
 		catch (IOException e) {
 			System.out.println("An error occured - "+e.getMessage());
