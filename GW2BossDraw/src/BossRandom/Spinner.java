@@ -150,7 +150,8 @@ public class Spinner implements ActionListener, MouseListener
 		
 		else if (!spinning) {
 			
-			if (speed == 0) { //snap back to full image 
+			//snap back to full image once stopped
+			if (speed == 0) {  
 				if (Math.abs(x%WIDTH) <= WIDTH/2) {
 					x = x/WIDTH*WIDTH;
 				}
@@ -159,6 +160,7 @@ public class Spinner implements ActionListener, MouseListener
 				}
 			}
 			
+			//slow down
 			if (slowRoll >0) {
 				x -= speed;
 				slowRoll--;
