@@ -12,10 +12,5 @@ On second click, speed decelerates by number of units randomly set.
 
 Once come to a full stop, image snaps back or forwards to where the arrow points.
 
-App in full action may be seen on [Youtube](https://youtu.be/tSK4xH2eKAg)
-
-Animated GIF below (20 frames/second).
-
-![workinggif](/Resources/BossDraw.gif)
-
+App in full action may be seen on [Youtube](https://youtu.be/afbnB5dsSQQ)
 
